@@ -1,0 +1,53 @@
+QUESTION:
+
+Given a string s, reverse only all the vowels in the string and return it.
+
+The vowels are 'a', 'e', 'i', 'o', and 'u', and they can appear in both cases.
+
+ 
+
+Example 1:
+
+Input: s = "hello"
+Output: "holle"
+Example 2:
+
+Input: s = "leetcode"
+Output: "leotcede"
+ 
+
+Constraints:
+
+1 <= s.length <= 3 * 105
+s consist of printable ASCII characters.
+
+CODE SOLUTION:
+
+class Solution {
+public:
+    string reverseVowels(string s) {
+        int vowelLow,vowelHigh;
+        vector<char> vowels;
+        //vector<int> indices;
+        for(int i=0;i<s.length();i++){
+            if(s[i]=='a' || s[i]=='e' || s[i]=='i' || s[i]=='o' || s[i]=='u' || s[i]=='A' || s[i]=='E' || s[i]=='I' || s[i]=='O' || s[i]=='U'){
+                vowels.push_back(s[i]);
+                //indices.push_back(i);
+            }
+        }
+        reverse(vowels.begin(),vowels.end());
+        int c=0;
+        for(int i=0;i<s.length();i++){
+            if(s[i]=='a' || s[i]=='e' || s[i]=='i' || s[i]=='o' || s[i]=='u' || s[i]=='A' || s[i]=='E' || s[i]=='I' || s[i]=='O' || s[i]=='U'){
+                s[i]=vowels[c];
+                c++;
+            }
+        }
+        return s;
+    }
+};
+
+PERFORMANCE:
+
+Runtime: 16 ms, faster than 21.19% of C++ online submissions for Reverse Vowels of a String.
+Memory Usage: 7.9 MB, less than 38.43% of C++ online submissions for Reverse Vowels of a String.
