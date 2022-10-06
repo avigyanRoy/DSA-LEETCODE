@@ -1,0 +1,100 @@
+QUESTION:
+
+Given an array of integers heights representing the histogram's bar height where the width of each bar is 1, return the area of the largest rectangle in the histogram.
+
+ 
+
+Example 1:
+
+
+Input: heights = [2,1,5,6,2,3]
+Output: 10
+Explanation: The above is a histogram where width of each bar is 1.
+The largest rectangle is shown in the red area, which has an area = 10 units.
+Example 2:
+
+
+Input: heights = [2,4]
+Output: 4
+ 
+
+Constraints:
+
+1 <= heights.length <= 105
+0 <= heights[i] <= 104
+
+CODE SOLUTION:
+
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& heights) {
+        // Create an empty stack. The stack holds indexes
+    // of hist[] array. The bars stored in stack are
+    // always in increasing order of their heights.
+    stack<int> s;
+ 
+    int max_area = 0; // Initialize max area
+    int tp; // To store top of stack
+    int area_with_top; // To store area with top bar
+                       // as the smallest bar
+ 
+    // Run through all bars of given histogram
+    int i = 0;
+    int n=heights.size();
+    while (i < n) {
+        // If this bar is higher than the bar on top
+        // stack, push it to stack
+        if (s.empty() || heights[s.top()] <= heights[i])
+            s.push(i++);
+ 
+        // If this bar is lower than top of stack,
+        // then calculate area of rectangle with stack
+        // top as the smallest (or minimum height) bar.
+        // 'i' is 'right index' for the top and element
+        // before top in stack is 'left index'
+        else {
+            tp = s.top(); // store the top index
+            s.pop(); // pop the top
+ 
+            // Calculate the area with hist[tp] stack
+            // as smallest bar
+            area_with_top
+                = heights[tp]
+                  * (s.empty() ? i : i - s.top() - 1);
+ 
+            // update max area, if needed
+            if (max_area < area_with_top)
+                max_area = area_with_top;
+        }
+    }
+ 
+    // Now pop the remaining bars from stack and calculate
+    // area with every popped bar as the smallest bar
+    while (s.empty() == false) {
+        tp = s.top();
+        s.pop();
+        area_with_top
+            = heights[tp] * (s.empty() ? i : i - s.top() - 1);
+ 
+        if (max_area < area_with_top)
+            max_area = area_with_top;
+    }
+ 
+    return max_area;
+
+        
+        
+        
+    }
+};
+
+
+CODE PERFORMANCE:
+
+
+Runtime: 175 ms, faster than 96.59% of C++ online submissions for Largest Rectangle in Histogram.
+Memory Usage: 77.3 MB, less than 67.33% of C++ online submissions for Largest Rectangle in Histogram.
+
+
+
+
