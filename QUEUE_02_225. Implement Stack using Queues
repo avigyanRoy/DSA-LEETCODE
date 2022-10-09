@@ -1,0 +1,135 @@
+QUESTION:
+
+Implement a last-in-first-out (LIFO) stack using only two queues. The implemented stack should support all the functions of a normal stack (push, top, pop, and empty).
+
+Implement the MyStack class:
+
+void push(int x) Pushes element x to the top of the stack.
+int pop() Removes the element on the top of the stack and returns it.
+int top() Returns the element on the top of the stack.
+boolean empty() Returns true if the stack is empty, false otherwise.
+Notes:
+
+You must use only standard operations of a queue, which means that only push to back, peek/pop from front, size and is empty operations are valid.
+Depending on your language, the queue may not be supported natively. You may simulate a queue using a list or deque (double-ended queue) as long as you use only a queue's standard operations.
+ 
+
+Example 1:
+
+Input
+["MyStack", "push", "push", "top", "pop", "empty"]
+[[], [1], [2], [], [], []]
+Output
+[null, null, null, 2, 2, false]
+
+Explanation
+MyStack myStack = new MyStack();
+myStack.push(1);
+myStack.push(2);
+myStack.top(); // return 2
+myStack.pop(); // return 2
+myStack.empty(); // return False
+ 
+
+Constraints:
+
+1 <= x <= 9
+At most 100 calls will be made to push, pop, top, and empty.
+All the calls to pop and top are valid.
+
+
+CODE SOLUTION:
+
+class MyStack {
+    queue<int> q1,q2;
+public:
+    MyStack() {
+        
+    }
+    
+    void push(int val){
+        if(!q1.empty()){
+            q1.push(val);
+        }
+        else{
+            q2.push(val);
+        }
+    }
+
+    int pop(){
+        int poppedVal;
+        if(q1.empty()){
+            while(!q2.empty()){
+                int front= q2.front();
+                poppedVal=front;
+                q2.pop();
+                if(q2.empty()){
+                    break;
+                }
+                q1.push(front);
+            }
+        }
+        else{
+            while(!q1.empty()){
+                int front= q1.front();
+                poppedVal=front;
+                q1.pop();
+                if(q1.empty()){
+                    break;
+                }
+                q2.push(front);
+            }
+        }
+        return poppedVal;
+    }
+
+    int top(){
+        if(q1.empty()){
+            while(!q2.empty()){
+                int front= q2.front();
+                q2.pop();
+                
+                q1.push(front);
+
+                if(q2.empty()){
+                    return front;
+                }
+            }
+        }
+        else{
+            while(!q1.empty()){
+                int front= q1.front();
+                q1.pop();
+                
+                q2.push(front);
+
+                if(q1.empty()){
+                    return front;
+                }
+            }
+        }
+        return 0;
+    }
+    bool empty(){
+        return q1.empty() && q2.empty()
+            ;
+        
+    }
+};
+
+/**
+ * Your MyStack object will be instantiated and called as such:
+ * MyStack* obj = new MyStack();
+ * obj->push(x);
+ * int param_2 = obj->pop();
+ * int param_3 = obj->top();
+ * bool param_4 = obj->empty();
+ */
+ 
+ 
+ PERFORMANCE:
+ 
+ 
+ Runtime: 0 ms, faster than 100.00% of C++ online submissions for Implement Stack using Queues.
+Memory Usage: 6.9 MB, less than 71.63% of C++ online submissions for Implement Stack using Queues.
+
